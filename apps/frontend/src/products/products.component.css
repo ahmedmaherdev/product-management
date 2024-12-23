@@ -1,0 +1,240 @@
+/* General adjustments for compatibility with navbar */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Navbar is already styled */
+
+/* Products Header */
+.products-header {
+  text-align: center;
+  margin-bottom: 30px;
+  background: linear-gradient(to right, #1e3a8a, #2563eb); /* Distinct but complementary colors */
+  color: white;
+  padding: 20px 0;
+  border-radius: 8px;
+  margin-top: 80px; /* Account for fixed navbar */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.products-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.products-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: white;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.products-subtitle {
+  font-size: 18px;
+  margin-top: 10px;
+  color: #e6e6e6; /* Slightly lighter text for a softer contrast */
+}
+
+/* Products Container */
+.products-container {
+  padding: 20px 10px;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* Product Card */
+.product-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Product Image */
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+/* Product Info */
+.product-info {
+  padding: 15px;
+  min-height: 200px;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937; /* Neutral dark color */
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.product-description {
+  font-size: 14px;
+  color: #4b5563; /* Neutral mid-grey */
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.product-category {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.product-category .material-icons {
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Price and Button */
+.product-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+}
+
+.product-price .material-icons {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.add-to-cart-btn {
+  background-color: #2563eb; /* Accent color complementary to navbar */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.add-to-cart-btn .material-icons {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #1e3a8a; /* Darker shade of the button */
+  transform: scale(1.1);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+.pagination button {
+  background: #e5e7eb; /* Light grey */
+  border: 1px solid #d1d5db;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.pagination button.active {
+  background-color: #2563eb;
+  color: white;
+  transform: scale(1.1);
+}
+
+.pagination button:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+.pagination button:hover {
+  background-color: #1e3a8a;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Loader */
+.loader {
+  border: 4px solid #e5e7eb;
+  border-radius: 50%;
+  border-top: 4px solid #2563eb;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* No Data Message */
+.no-data-message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 120px); /* Full height minus navbar and header */
+  text-align: center;
+}
+
+.no-data-message {
+  font-size: 18px;
+  color: #4b5563; /* Neutral grey for contrast */
+  padding: 25px 30px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb; /* Subtle border for definition */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+  display: inline-block;
+  max-width: 350px;
+}
+
+.no-data-image {
+  width: 120px; /* Reduced size for better alignment */
+  margin-bottom: 15px;
+}
+
+.no-data-message p {
+  margin: 0;
+  font-size: 16px;
+  color: #6b7280; /* Slightly lighter grey */
+}

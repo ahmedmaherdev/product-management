@@ -1,0 +1,46 @@
+<div class="products-header">
+  <h1 class="products-title">Our Products</h1>
+  <p class="products-subtitle">Explore our wide range of products</p>
+</div>
+
+<div class="products-container">
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loader"></div>
+
+  <!-- No Data Message -->
+  <div *ngIf="hasNoData && !isLoading" class="no-data-message-container">
+    <div class="no-data-message">
+      <img src="../assets/no-data.svg" alt="No products" class="no-data-image" />
+      <p>No products available.</p>
+    </div>
+  </div>
+
+  <!-- Product Cards -->
+  <div *ngFor="let product of products" class="product-card">
+    <div class="product-info">
+      <h3 class="product-name">{{ product.name }}</h3>
+      <p class="product-description" *ngIf="product.description">{{ product.description }}</p>
+      <p class="product-category" *ngIf="product.category">
+        <span class="material-icons">category</span>
+        <strong>Category:</strong> {{ product.category }}
+      </p>
+      <div class="product-footer">
+        <span class="product-price">
+          <span class="material-icons">attach_money</span>${{ product.price }}
+        </span>
+        <button class="add-to-cart-btn">
+          <span class="material-icons">shopping_cart</span> Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination -->
+<div *ngIf="!hasNoData && totalPages > 1" class="pagination">
+  <button (click)="onPageChange(1)" [disabled]="currentPage === 1">First</button>
+  <button *ngFor="let page of pageNumbers" (click)="onPageChange(page)" [class.active]="page === currentPage">
+    {{ page }}
+  </button>
+  <button (click)="onPageChange(totalPages)" [disabled]="currentPage === totalPages">Last</button>
+</div>

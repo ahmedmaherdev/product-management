@@ -1,0 +1,22 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 300"
+  aria-hidden="true"
+  role="img"
+>
+  <g fill="none" fill-rule="evenodd">
+    <rect width="400" height="300" fill="#E3F2FD" rx="8" /> <!-- Light blue background -->
+    <circle fill="#64B5F6" cx="200" cy="150" r="100" /> <!-- Medium blue circle -->
+    <path
+      d="M140 120c15-10 35-10 50 0s35 10 50 0"
+      stroke="#FFF"
+      stroke-width="8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <circle fill="#FFF" cx="170" cy="140" r="10" />
+    <circle fill="#FFF" cx="230" cy="140" r="10" />
+    <rect fill="#FFF" x="170" y="180" width="60" height="10" rx="5" />
+  </g>
+</svg>

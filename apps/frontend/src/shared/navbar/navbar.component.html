@@ -1,0 +1,13 @@
+<nav class="navbar">
+  <a class="brand" routerLink="/">My App</a>
+  <div class="nav-links">
+    <ng-container *ngIf="isAuthenticated(); else guestLinks">
+      <span class="user-welcome">Welcome, {{ username }}!</span>
+      <button class="nav-button logout" (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-template #guestLinks>
+      <button class="nav-button login" routerLink="/login" routerLinkActive="active">Login</button>
+      <button class="nav-button signup" routerLink="/signup" routerLinkActive="active">Signup</button>
+    </ng-template>
+  </div>
+</nav>

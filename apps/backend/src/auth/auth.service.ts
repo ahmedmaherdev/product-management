@@ -25,9 +25,10 @@ export class AuthService {
         const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     
         const savedUser = await this.userModel.create({
+            name: registerDto.name,
             email: registerDto.email,
             password: hashedPassword,
-            role: registerDto.role || UserRole.USER
+            role: UserRole.USER
         });
 
         this.removeSensitiveFields(savedUser);

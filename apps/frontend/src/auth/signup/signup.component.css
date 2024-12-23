@@ -1,0 +1,111 @@
+.signup-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd; /* Lighter border color for a cohesive design */
+  border-radius: 8px;
+  background-color: #ffffff; /* Clean white background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.signup-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.signup-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.signup-container label {
+  font-weight: bold;
+  color: #555; /* Darker label color for better visibility */
+}
+
+.signup-container input {
+  padding: 0.7rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.signup-container input:focus {
+  outline: none;
+  border-color: #007bff; /* Matching navbar blue */
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
+}
+
+.signup-container input.ng-invalid.ng-touched {
+  border-color: #dc3545; /* Red border for invalid fields */
+}
+
+.signup-container .error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+}
+
+.signup-container button {
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff; /* Matching navbar blue */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.signup-container button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px);
+}
+
+.signup-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.signup-container .error-message {
+  color: #dc3545;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.signup-container p {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.signup-container p a {
+  color: #007bff; /* Consistent with navbar blue */
+  text-decoration: none;
+}
+
+.signup-container p a:hover {
+  text-decoration: underline;
+}
+
+.signup-container .form-group input.ng-valid.ng-touched {
+  border-color: #28a745;
+  box-shadow: 0 0 6px rgba(40, 167, 69, 0.5);
+}
