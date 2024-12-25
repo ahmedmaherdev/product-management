@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { select, Store } from '@ngrx/store';
@@ -18,7 +24,11 @@ export class SignupComponent {
   serverError: string | null = null;
   error$: Observable<string | null>;
 
-  constructor(private fb: FormBuilder, private router: Router, private store: Store) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private store: Store
+  ) {
     this.signupForm = this.fb.group(
       {
         name: ['', [Validators.required, Validators.minLength(3)]],
@@ -28,9 +38,11 @@ export class SignupComponent {
       },
       { validator: this.passwordMatchValidator }
     );
-    this.error$ = this.store.pipe(select((state: any) => {
-      return state?.auth?.error?.error?.message;
-    }));
+    this.error$ = this.store.pipe(
+      select((state: any) => {
+        return state?.auth?.error?.error?.message;
+      })
+    );
   }
 
   get name() {

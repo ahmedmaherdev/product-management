@@ -5,6 +5,7 @@ export const API_URIS = {
       LOGIN: environment.apiUrl + '/auth/login',
       SIGNUP: environment.apiUrl + '/auth/signup',
       FORGOT_PASSWORD: environment.apiUrl + '/auth/forgot-password',
+      RESET_PASSWORD: environment.apiUrl + '/auth/reset-password',
     },
     PRODUCTS: {
       BASE: environment.apiUrl + '/products',

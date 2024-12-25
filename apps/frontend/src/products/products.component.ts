@@ -37,18 +37,21 @@ export class ProductsComponent implements OnInit {
 
   loadProducts(): void {
     this.isLoading = true;
-    this.productsService.getProducts(this.currentPage, this.pageSize).pipe(
-      tap((response) => {
+    this.productsService
+      .getProducts(this.currentPage, this.pageSize)
+      .pipe(
+        tap((response) => {
           this.products = response.data || [];
           this.totalItems = response.count || 0;
-      }),
-      catchError((error) => {
+        }),
+        catchError((error) => {
           console.error('Error fetching products:', error);
           return [];
-      })
-    ).subscribe(() => {
-      this.isLoading = false;
-    });
+        })
+      )
+      .subscribe(() => {
+        this.isLoading = false;
+      });
   }
 
   onPageChange(page: number): void {

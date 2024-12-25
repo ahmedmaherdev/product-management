@@ -1,23 +1,23 @@
-import { Transform } from "class-transformer";
-import { IsOptional, IsPositive, IsString, Min } from "class-validator";
+import { Transform } from 'class-transformer';
+import { IsOptional, IsPositive, IsString, Min } from 'class-validator';
 
 export class UpdateProductDto {
-    @IsString()
-    @IsOptional()
-    name: string;
+  @IsString()
+  @IsOptional()
+  name: string;
 
-    @IsString()
-    @IsOptional()
-    description: string;
+  @IsString()
+  @IsOptional()
+  description: string;
 
-    @IsPositive()
-    @Transform(({ value }) => parseFloat(value))
-    @IsOptional()
-    price: number;
+  @IsPositive()
+  @Transform(({ value }) => parseFloat(value))
+  @IsOptional()
+  price: number;
 
-    @IsString()
-    @IsOptional()
-    category: string;
+  @IsString()
+  @IsOptional()
+  category: string;
 
-    createdBy?: string;
+  createdBy?: string;
 }

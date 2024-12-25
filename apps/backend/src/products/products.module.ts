@@ -8,6 +8,8 @@ import { PaginationService } from '../common/services/pagination.service';
 @Module({
   controllers: [ProductsController],
   providers: [ProductsService, PaginationService],
-  imports: [MongooseModule.forFeature([{ name: Product.name , schema: ProductSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
+  ],
 })
 export class ProductsModule {}

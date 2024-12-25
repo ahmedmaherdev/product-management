@@ -6,7 +6,8 @@ export interface AuthState {
   user: any | null;
   isAuthenticated: boolean;
   error: any | null;
-  isLoading: boolean;
+  forgotPasswordMessage: string | null;
+  resetPasswordMessage: string | null;
 }
 
 export const initialState: AuthState = {
@@ -14,7 +15,8 @@ export const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   error: null,
-  isLoading: false,
+  forgotPasswordMessage: null,
+  resetPasswordMessage: null,
 };
 
 export const authReducer = createReducer(
@@ -23,7 +25,6 @@ export const authReducer = createReducer(
   // Login Actions
   on(AuthActions.login, (state) => ({
     ...state,
-    isLoading: true,
     error: null,
   })),
   on(AuthActions.loginSuccess, (state, { token, user }) => ({
@@ -31,7 +32,6 @@ export const authReducer = createReducer(
     token,
     user,
     isAuthenticated: true,
-    isLoading: false,
     error: null,
   })),
   on(AuthActions.loginFailure, (state, { error }) => ({
@@ -39,14 +39,12 @@ export const authReducer = createReducer(
     token: null,
     user: null,
     isAuthenticated: false,
-    isLoading: false,
     error,
   })),
 
   // Signup Actions
   on(AuthActions.signup, (state) => ({
     ...state,
-    isLoading: true,
     error: null,
   })),
   on(AuthActions.signupSuccess, (state, { token, user }) => ({
@@ -54,12 +52,42 @@ export const authReducer = createReducer(
     token,
     user,
     isAuthenticated: true,
-    isLoading: false,
     error: null,
   })),
   on(AuthActions.signupFailure, (state, { error }) => ({
     ...state,
-    isLoading: false,
+    error,
+  })),
+
+  // Forgot Password Actions
+  on(AuthActions.forgotPassword, (state) => ({
+    ...state,
+    forgotPasswordMessage: null,
+    error: null,
+  })),
+  on(AuthActions.forgotPasswordSuccess, (state, { message }) => ({
+    ...state,
+    forgotPasswordMessage: message,
+    error: null,
+  })),
+  on(AuthActions.forgotPasswordFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+
+  // Reset Password Actions
+  on(AuthActions.resetPassword, (state) => ({
+    ...state,
+    resetPasswordMessage: null,
+    error: null,
+  })),
+  on(AuthActions.resetPasswordSuccess, (state, { message }) => ({
+    ...state,
+    resetPasswordMessage: message,
+    error: null,
+  })),
+  on(AuthActions.resetPasswordFailure, (state, { error }) => ({
+    ...state,
     error,
   })),
 

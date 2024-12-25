@@ -19,7 +19,10 @@ export class AuthEffects {
       mergeMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
           map((response: any) =>
-            AuthActions.loginSuccess({ token: response.token, user: response.user })
+            AuthActions.loginSuccess({
+              token: response.token,
+              user: response.user,
+            })
           ),
           catchError((error) => {
             console.error('Login error:', error);
@@ -37,9 +40,11 @@ export class AuthEffects {
         ofType(AuthActions.loginSuccess),
         tap(({ token, user }) => {
           console.log('Login successful:', token, user);
-          this.router.navigate(['/products']).catch((err) =>
-            console.error('Navigation to /products failed:', err)
-          );
+          this.router
+            .navigate(['/products'])
+            .catch((err) =>
+              console.error('Navigation to /products failed:', err)
+            );
         })
       ),
     { dispatch: false }
@@ -52,7 +57,10 @@ export class AuthEffects {
       mergeMap(({ data }) =>
         this.authService.signup(data).pipe(
           map((response: any) =>
-            AuthActions.signupSuccess({ token: response.token, user: response.user })
+            AuthActions.signupSuccess({
+              token: response.token,
+              user: response.user,
+            })
           ),
           catchError((error) => {
             console.error('Signup error:', error);
@@ -70,9 +78,69 @@ export class AuthEffects {
         ofType(AuthActions.signupSuccess),
         tap(({ token, user }) => {
           console.log('Signup successful:', token, user);
-          this.router.navigate(['/products']).catch((err) =>
-            console.error('Navigation to /products failed:', err)
-          );
+          this.router
+            .navigate(['/products'])
+            .catch((err) =>
+              console.error('Navigation to /products failed:', err)
+            );
+        })
+      ),
+    { dispatch: false }
+  );
+
+  // Forgot Password Effect
+  forgotPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.forgotPassword),
+      mergeMap(({ email }) =>
+        this.authService.forgotPassword(email).pipe(
+          map((response: any) =>
+            AuthActions.forgotPasswordSuccess({ message: response.message })
+          ),
+          catchError((error) => {
+            console.error('Forgot Password error:', error);
+            return of(AuthActions.forgotPasswordFailure({ error }));
+          })
+        )
+      )
+    )
+  );
+
+  // Reset Password Effect
+  resetPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resetPassword),
+      mergeMap(({ data }) =>
+        this.authService.resetPassword(data).pipe(
+          map((response: any) =>
+            AuthActions.resetPasswordSuccess({ message: response.message })
+          ),
+          catchError((error) => {
+            console.error('Reset Password error:', error);
+            return of(AuthActions.resetPasswordFailure({ error }));
+          })
+        )
+      )
+    )
+  );
+
+  resetPasswordSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.resetPasswordSuccess),
+        tap(({ message }) => {
+          console.log('Reset Password successful:', message);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  forgotPasswordSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.forgotPasswordSuccess),
+        tap(({ message }) => {
+          console.log('Forgot Password successful:', message);
         })
       ),
     { dispatch: false }
@@ -86,9 +154,9 @@ export class AuthEffects {
         tap(() => {
           console.log('Logging out...');
           this.authService.logout();
-          this.router.navigate(['/login']).catch((err) =>
-            console.error('Navigation to /login failed:', err)
-          );
+          this.router
+            .navigate(['/login'])
+            .catch((err) => console.error('Navigation to /login failed:', err));
         })
       ),
     { dispatch: false }
@@ -101,7 +169,6 @@ export class AuthEffects {
         ofType(AuthActions.loginFailure),
         tap(({ error }) => {
           console.error('Login failed:', error);
-          // Optionally, show a notification or redirect to an error page
         })
       ),
     { dispatch: false }
@@ -114,7 +181,30 @@ export class AuthEffects {
         ofType(AuthActions.signupFailure),
         tap(({ error }) => {
           console.error('Signup failed:', error);
-          // Optionally, show a notification or redirect to an error page
+        })
+      ),
+    { dispatch: false }
+  );
+
+  // Handle Forgot Password Failure Effect
+  forgotPasswordFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.forgotPasswordFailure),
+        tap(({ error }) => {
+          console.error('Forgot Password failed:', error);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  // Handle Reset Password Failure Effect
+  resetPasswordFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.resetPasswordFailure),
+        tap(({ error }) => {
+          console.error('Reset Password failed:', error);
         })
       ),
     { dispatch: false }

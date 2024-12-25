@@ -3,13 +3,15 @@
   <p class="products-subtitle">Explore our wide range of products</p>
 </div>
 
-<div class="products-container">
+<div class="products-container" *ngIf="!isLoading">
   <!-- Product Cards -->
   <div *ngFor="let product of products" class="product-card">
     <div class="product-info">
       <img src="product.jpg" alt="{{ product.name }}" class="product-image" />
       <h3 class="product-name">{{ product.name }}</h3>
-      <p class="product-description" *ngIf="product.description">{{ product.description }}</p>
+      <p class="product-description" *ngIf="product.description">
+        {{ product.description }}
+      </p>
       <p class="product-category" *ngIf="product.category">
         <span class="material-icons">category</span>
         <strong>Category:</strong> {{ product.category }}
@@ -26,7 +28,9 @@
   </div>
 </div>
 <!-- Loader -->
-<div *ngIf="isLoading" class="loader"></div>
+<div *ngIf="isLoading" class="loader-container">
+  <div class="loader"></div>
+</div>
 
 <!-- No Data Message -->
 <div *ngIf="hasNoData && !isLoading" class="no-data-message-container">
@@ -40,10 +44,17 @@
   <button (click)="onPageChange(1)" [disabled]="currentPage === 1">
     <span class="material-icons">first_page</span>
   </button>
-  <button *ngFor="let page of pageNumbers" (click)="onPageChange(page)" [class.active]="page === currentPage">
+  <button
+    *ngFor="let page of pageNumbers"
+    (click)="onPageChange(page)"
+    [class.active]="page === currentPage"
+  >
     {{ page }}
   </button>
-  <button (click)="onPageChange(totalPages)" [disabled]="currentPage === totalPages">
+  <button
+    (click)="onPageChange(totalPages)"
+    [disabled]="currentPage === totalPages"
+  >
     <span class="material-icons">last_page</span>
   </button>
 </div>

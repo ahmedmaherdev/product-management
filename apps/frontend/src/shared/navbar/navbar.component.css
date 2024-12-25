@@ -37,7 +37,8 @@
   font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  transition: background 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out;
 }
 
 .nav-button:hover {
@@ -76,7 +77,6 @@
   color: white;
   border-color: #d9534f;
 }
-
 
 .user-welcome {
   font-size: 1rem;

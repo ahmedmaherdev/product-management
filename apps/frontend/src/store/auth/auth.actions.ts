@@ -10,5 +10,15 @@ export const signup = createAction('[Auth] Signup', props<{ data: { email: strin
 export const signupSuccess = createAction('[Auth] Signup Success', props<{ token: string; user: any }>());
 export const signupFailure = createAction('[Auth] Signup Failure', props<{ error: any }>());
 
+// Forgot Password Actions
+export const forgotPassword = createAction('[Auth] Forgot Password', props<{ email: string }>());
+export const forgotPasswordSuccess = createAction('[Auth] Forgot Password Success', props<{ message: string }>());
+export const forgotPasswordFailure = createAction('[Auth] Forgot Password Failure', props<{ error: any }>());
+
+// Reset Password Actions
+export const resetPassword = createAction('[Auth] Reset Password', props<{ data: { token: string; password: string; confirmPassword: string } }>());
+export const resetPasswordSuccess = createAction('[Auth] Reset Password Success', props<{ message: string }>());
+export const resetPasswordFailure = createAction('[Auth] Reset Password Failure', props<{ error: any }>());
+
 // Logout Action
 export const logout = createAction('[Auth] Logout');

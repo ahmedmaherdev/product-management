@@ -11,7 +11,11 @@ body {
 .products-header {
   text-align: center;
   margin-bottom: 30px;
-  background: linear-gradient(to right, #1e3a8a, #2563eb); /* Distinct but complementary colors */
+  background: linear-gradient(
+    to right,
+    #1e3a8a,
+    #2563eb
+  ); /* Distinct but complementary colors */
   color: white;
   padding: 20px 0;
   border-radius: 8px;
@@ -208,8 +212,14 @@ body {
   font-size: 20px;
 }
 
-
 /* Loader */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
 .loader {
   border: 4px solid #e5e7eb;
   border-radius: 50%;

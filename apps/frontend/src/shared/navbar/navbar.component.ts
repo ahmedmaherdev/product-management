@@ -15,13 +15,16 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
   username$: Observable<string | null>;
+  isAuthenticated$: Observable<boolean>;
 
-  constructor(private authService: AuthService, private router: Router, private store: Store) {
+  constructor(private authService: AuthService, private store: Store) {
     this.username$ = this.store.select((state: any) => state?.auth?.user?.name);
+    this.isAuthenticated$ = this.store.select(
+      (state: any) => state?.auth?.isAuthenticated
+    );
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();

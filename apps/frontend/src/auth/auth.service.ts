@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';  // Import Store
-import * as AuthActions from '../store/auth/auth.actions';  // Import actions
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../store/auth/auth.actions';
 import { API_URIS } from '../core/constants/api.constants';
 
 @Injectable({
@@ -27,13 +27,34 @@ export class AuthService {
   }
 
   // Signup Method
-  signup(data: { email: string; password: string; confirmPassword: string; name: string }): Observable<any> {
+  signup(data: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+    name: string;
+  }): Observable<any> {
     return this.http.post(API_URIS.AUTH.SIGNUP, data).pipe(
       take(1),
       tap((response: any) => {
         this.storeAuthData(response.token, response.user);
       })
     );
+  }
+
+  // Forgot Password Method
+  forgotPassword(email: string): Observable<any> {
+    return this.http
+      .post(API_URIS.AUTH.FORGOT_PASSWORD, { email })
+      .pipe(take(1));
+  }
+
+  // Reset Password Method
+  resetPassword(data: {
+    token: string;
+    password: string;
+    confirmPassword: string;
+  }): Observable<any> {
+    return this.http.post(API_URIS.AUTH.RESET_PASSWORD, data).pipe(take(1));
   }
 
   // Logout Method
@@ -56,17 +77,6 @@ export class AuthService {
       this.store.dispatch(AuthActions.logout());
     }
     return false;
-  }
-
-  // Get Current User
-  getCurrentUser(): any {
-    const user = localStorage.getItem(this.userKey);
-    return user ? JSON.parse(user) : null;
-  }
-
-  // Get Auth Token
-  getAuthToken(): string {
-    return localStorage.getItem(this.authTokenKey) || '';
   }
 
   // Helper: Store Authentication Data
