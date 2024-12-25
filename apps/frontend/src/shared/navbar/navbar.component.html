@@ -2,7 +2,7 @@
   <a class="brand" routerLink="/">My App</a>
   <div class="nav-links">
     <ng-container *ngIf="isAuthenticated(); else guestLinks">
-      <span class="user-welcome">Welcome, {{ username }}!</span>
+      <span class="user-welcome">Welcome, {{ username$ | async }}!</span>
       <button class="nav-button logout" (click)="logout()">Logout</button>
     </ng-container>
     <ng-template #guestLinks>

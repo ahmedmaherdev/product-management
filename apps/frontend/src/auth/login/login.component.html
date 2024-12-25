@@ -17,10 +17,10 @@
       </div>
     </div>
 
-    <div *ngIf="serverError" class="error-message">
-      <small>{{ serverError }}</small>
+    <div *ngIf="error$ | async as error" class="error-message">
+      <small>{{ error }}</small>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid || isSubmitting">Login</button>
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
   </form>
 </div>

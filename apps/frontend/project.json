@@ -20,6 +20,7 @@
         ],
         "tsConfig": "apps/frontend/tsconfig.app.json",
         "assets": [
+          "apps/frontend/src/assets",
           {
             "glob": "**/*",
             "input": "apps/frontend/public"

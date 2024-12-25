@@ -1,26 +1,35 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store'; // Import Store
+import { Router, RouterModule } from '@angular/router';
+import * as AuthActions from '../../store/auth/auth.actions'; // Import actions
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  serverError: string | null = null;
-  isSubmitting = false;
+  error$: Observable<string | null>;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private store: Store, // Inject Store
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+
+    this.error$ = this.store.pipe(select((state: any) => {
+      return state?.auth?.error?.error?.message;
+    }));
   }
 
   get email() {
@@ -32,21 +41,10 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.invalid || this.isSubmitting) {
+    if (this.loginForm.invalid) {
       return;
     }
-
-    this.isSubmitting = true;
     const { email, password } = this.loginForm.value;
-    this.authService.login({ email, password }).subscribe({
-        next: () => {
-          this.router.navigate(['/products']);
-        },
-        error: (err) => {
-          console.error('Signup failed:', err);
-          this.serverError = err.error?.message || 'Signup failed. Please try again.';
-          this.isSubmitting = false;
-        },
-    });
+    this.store.dispatch(AuthActions.login({ credentials: { email, password } }));
   }
 }

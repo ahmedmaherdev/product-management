@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { API_URIS } from '../constants/api.constants';
 
 @Injectable({
@@ -16,6 +16,6 @@ export class ProductsService {
         limit: pageSize.toString(),
     };
 
-    return this.http.get<any>(API_URIS.PRODUCTS.GET_ALL, { params });
+    return this.http.get<any>(API_URIS.PRODUCTS.GET_ALL, { params }).pipe(take(1));
   }
 }

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { select, Store } from '@ngrx/store';
+import * as AuthActions from '../../store/auth/auth.actions'; // Import actions
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -13,10 +15,10 @@ import { CommonModule } from '@angular/common';
 })
 export class SignupComponent {
   signupForm: FormGroup;
-  isSubmitting = false;
   serverError: string | null = null;
+  error$: Observable<string | null>;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private store: Store) {
     this.signupForm = this.fb.group(
       {
         name: ['', [Validators.required, Validators.minLength(3)]],
@@ -26,6 +28,9 @@ export class SignupComponent {
       },
       { validator: this.passwordMatchValidator }
     );
+    this.error$ = this.store.pipe(select((state: any) => {
+      return state?.auth?.error?.error?.message;
+    }));
   }
 
   get name() {
@@ -51,20 +56,11 @@ export class SignupComponent {
   }
 
   onSubmit(): void {
-    if (this.signupForm.invalid || this.isSubmitting) {
+    if (this.signupForm.invalid) {
       return;
     }
 
-    this.isSubmitting = true;
-    this.authService.signup(this.signupForm.value).subscribe({
-      next: () => {
-        this.router.navigate(['/products']);
-      },
-      error: (err) => {
-        console.error('Signup failed:', err);
-        this.serverError = err.error?.message || 'Signup failed. Please try again.';
-        this.isSubmitting = false;
-      },
-    });
+    // Dispatch the signup action to NgRx store
+    this.store.dispatch(AuthActions.signup({ data: this.signupForm.value }));
   }
 }

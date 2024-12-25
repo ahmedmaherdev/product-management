@@ -37,11 +37,11 @@
       </div>
     </div>
 
-    <div *ngIf="serverError" class="error-message">
-      <small>{{ serverError }}</small>
+    <div *ngIf="error$ | async as error" class="error-message">
+      <small>{{ error }}</small>
     </div>
 
-    <button type="submit" [disabled]="signupForm.invalid || isSubmitting">Sign Up</button>
+    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
   </form>
   <p>Already have an account? <a routerLink="/login">Login here</a>.</p>
 </div>

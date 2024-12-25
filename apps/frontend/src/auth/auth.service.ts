@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';  // Import Store
+import * as AuthActions from '../store/auth/auth.actions';  // Import actions
 import { API_URIS } from '../core/constants/api.constants';
 
 @Injectable({
@@ -10,71 +12,39 @@ import { API_URIS } from '../core/constants/api.constants';
 export class AuthService {
   private authTokenKey = 'authToken';
   private authExpiryKey = 'authExpiry';
-  private userNameKey = 'username'; // Key for storing user name in localStorage
+  private userKey = 'authUser';
 
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.checkAuthStatus());
-  private userNameSubject = new BehaviorSubject<string>(this.getStoredUserName()); // BehaviorSubject for user name
+  constructor(private http: HttpClient, private store: Store) {}
 
-  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-  userName$ = this.userNameSubject.asObservable(); // Observable for user name
-
-  constructor(private http: HttpClient) {}
-
-  get authToken() {
-    return localStorage.getItem(this.authTokenKey) || '';
-  }
-
-  // Login method
+  // Login Method
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(API_URIS.AUTH.LOGIN, credentials).pipe(
+      take(1),
       tap((response: any) => {
-        this.addUserAuth(response.user, response.token);
+        this.storeAuthData(response.token, response.user);
       })
     );
   }
 
-  // Signup method
-  signup(data: { email: string; password: string; name: string }): Observable<any> {
+  // Signup Method
+  signup(data: { email: string; password: string; confirmPassword: string; name: string }): Observable<any> {
     return this.http.post(API_URIS.AUTH.SIGNUP, data).pipe(
+      take(1),
       tap((response: any) => {
-        this.addUserAuth(response.user, response.token);
+        this.storeAuthData(response.token, response.user);
       })
     );
   }
 
-  // Logout method
+  // Logout Method
   logout(): void {
     localStorage.removeItem(this.authTokenKey);
     localStorage.removeItem(this.authExpiryKey);
-    localStorage.removeItem(this.userNameKey); // Clear stored user name
-    this.isAuthenticatedSubject.next(false);
-    this.userNameSubject.next(''); // Clear user name
+    localStorage.removeItem(this.userKey);
   }
 
-  // Check if the user is authenticated
+  // Check Authentication Status
   isAuthenticated(): boolean {
-    return this.checkAuthStatus();
-  }
-
-  // Helper: Store the authentication token
-  private storeAuthToken(token: string): void {
-    const expiryTime = new Date().getTime() + 8 * 60 * 60 * 1000; // 8 hours in milliseconds
-    localStorage.setItem(this.authTokenKey, token);
-    localStorage.setItem(this.authExpiryKey, expiryTime.toString());
-  }
-
-  // Helper: Store the user's name
-  private storeUserName(name: string): void {
-    localStorage.setItem(this.userNameKey, name);
-  }
-
-  // Helper: Get stored user name
-  private getStoredUserName(): string {
-    return localStorage.getItem(this.userNameKey) || 'Guest';
-  }
-
-  // Helper: Check authentication status
-  private checkAuthStatus(): boolean {
     const token = localStorage.getItem(this.authTokenKey);
     const expiry = localStorage.getItem(this.authExpiryKey);
 
@@ -83,17 +53,27 @@ export class AuthService {
       if (!isExpired) {
         return true;
       }
-      this.logout(); // Token is expired; clear it.
+      this.store.dispatch(AuthActions.logout());
     }
-
     return false;
   }
 
-  private addUserAuth(user: any, token: string) {
-      const username = user?.name || 'Guest';
-      this.storeAuthToken(token);
-      this.storeUserName(username); // Store user name
-      this.isAuthenticatedSubject.next(true);
-      this.userNameSubject.next(username); // Emit updated user name
+  // Get Current User
+  getCurrentUser(): any {
+    const user = localStorage.getItem(this.userKey);
+    return user ? JSON.parse(user) : null;
+  }
+
+  // Get Auth Token
+  getAuthToken(): string {
+    return localStorage.getItem(this.authTokenKey) || '';
+  }
+
+  // Helper: Store Authentication Data
+  private storeAuthData(token: string, user: any): void {
+    const expiryTime = new Date().getTime() + 8 * 60 * 60 * 1000; // 8 hours
+    localStorage.setItem(this.authTokenKey, token);
+    localStorage.setItem(this.authExpiryKey, expiryTime.toString());
+    localStorage.setItem(this.userKey, JSON.stringify(user));
   }
 }

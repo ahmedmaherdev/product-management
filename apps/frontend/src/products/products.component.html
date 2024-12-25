@@ -4,20 +4,10 @@
 </div>
 
 <div class="products-container">
-  <!-- Loader -->
-  <div *ngIf="isLoading" class="loader"></div>
-
-  <!-- No Data Message -->
-  <div *ngIf="hasNoData && !isLoading" class="no-data-message-container">
-    <div class="no-data-message">
-      <img src="../assets/no-data.svg" alt="No products" class="no-data-image" />
-      <p>No products available.</p>
-    </div>
-  </div>
-
   <!-- Product Cards -->
   <div *ngFor="let product of products" class="product-card">
     <div class="product-info">
+      <img src="product.jpg" alt="{{ product.name }}" class="product-image" />
       <h3 class="product-name">{{ product.name }}</h3>
       <p class="product-description" *ngIf="product.description">{{ product.description }}</p>
       <p class="product-category" *ngIf="product.category">
@@ -35,12 +25,25 @@
     </div>
   </div>
 </div>
+<!-- Loader -->
+<div *ngIf="isLoading" class="loader"></div>
 
+<!-- No Data Message -->
+<div *ngIf="hasNoData && !isLoading" class="no-data-message-container">
+  <div class="no-data-message">
+    <img src="no-data.svg" alt="No products" class="no-data-image" />
+    <p>No products available.</p>
+  </div>
+</div>
 <!-- Pagination -->
-<div *ngIf="!hasNoData && totalPages > 1" class="pagination">
-  <button (click)="onPageChange(1)" [disabled]="currentPage === 1">First</button>
+<div *ngIf="!hasNoData && totalPages > 0" class="pagination">
+  <button (click)="onPageChange(1)" [disabled]="currentPage === 1">
+    <span class="material-icons">first_page</span>
+  </button>
   <button *ngFor="let page of pageNumbers" (click)="onPageChange(page)" [class.active]="page === currentPage">
     {{ page }}
   </button>
-  <button (click)="onPageChange(totalPages)" [disabled]="currentPage === totalPages">Last</button>
+  <button (click)="onPageChange(totalPages)" [disabled]="currentPage === totalPages">
+    <span class="material-icons">last_page</span>
+  </button>
 </div>

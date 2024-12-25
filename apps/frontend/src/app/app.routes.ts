@@ -5,9 +5,9 @@ import { AuthGuard } from '../core/guards/auth.guard';
 import { ProductsComponent } from '../products/products.component';
 
 export const appRoutes: Route[] = [
-    { path: '', redirectTo: '/products', pathMatch: 'full' }, // Redirect without AuthGuard
-    { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] }, // AuthGuard is here
+    { path: '', redirectTo: '/products', pathMatch: 'full' },
+    { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
-    { path: '**', redirectTo: '/login' }, // Redirect unknown routes to login
+    { path: '**', redirectTo: '/login' },
 ];

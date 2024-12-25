@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
+import * as AuthActions from '../../store/auth/auth.actions'; // Import your auth actions
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -10,21 +13,21 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./navbar.component.css'],
   imports: [CommonModule, RouterModule],
 })
-export class NavbarComponent {
-  username = "";
+export class NavbarComponent implements OnInit {
+  username$: Observable<string | null>;
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.authService.userName$.subscribe((name) => {
-      this.username = name;
-    });
+  constructor(private authService: AuthService, private router: Router, private store: Store) {
+    this.username$ = this.store.select((state: any) => state?.auth?.user?.name);
+  }
+
+  ngOnInit(): void {
   }
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  logout(): void {
+    this.store.dispatch(AuthActions.logout());
   }
 }

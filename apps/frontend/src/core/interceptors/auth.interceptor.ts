@@ -2,32 +2,26 @@ import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AuthState } from '../../store/auth/auth.reducer';
 
 export function AuthInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
   // Inject the current `AuthService` and use it to get an authentication token
   const authService = inject(AuthService);
   const router = inject(Router);
-  const authToken = authService.authToken;
+  const store = inject(Store<{ auth: AuthState }>);
 
-  if (!authToken) {
-    return next(req);
-  }
-  // Clone the request to add the authentication header
-  const newReq = req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  });
-
-  return next(newReq).pipe(
-    catchError((error) => {
-      if (error.status === 401) {
-        // If the status code is 401 (Unauthorized), logout the user and redirect to login
-        authService.logout();
-        router.navigate(['/login']);
+  return store.select('auth').pipe(
+    take(1),
+    map((authState) => authState.token),
+    switchMap((token) => {
+      if (token) {
+        req = req.clone({
+          setHeaders: { Authorization: `Bearer ${token}` },
+        });
       }
-      return of(error);
+      return next(req);
     })
   );
 }
