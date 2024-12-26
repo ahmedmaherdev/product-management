@@ -8,13 +8,15 @@ import { map, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private store: Store<{ auth: AuthState }>, private router: Router) {}
+  constructor(
+    private store: Store<{ auth: AuthState }>,
+    private router: Router
+  ) {}
 
   canActivate() {
     return this.store.select('auth').pipe(
       take(1),
       map((authState) => {
-        console.log(authState);
         if (authState.isAuthenticated) {
           return true;
         }

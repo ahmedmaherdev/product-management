@@ -83,7 +83,6 @@ export class AuthService {
 
     // Send email
     const resetUrl = `http://localhost:4200/reset-password?token=${resetToken}`;
-    console.log(resetUrl);
     await this.emailService.sendEmail({
       to: user.email,
       subject: 'Password Reset Request',

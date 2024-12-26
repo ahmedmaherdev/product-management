@@ -39,12 +39,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         tap(({ token, user }) => {
-          console.log('Login successful:', token, user);
-          this.router
-            .navigate(['/products'])
-            .catch((err) =>
-              console.error('Navigation to /products failed:', err)
-            );
+          this.router.navigate(['/products']);
         })
       ),
     { dispatch: false }
@@ -77,12 +72,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.signupSuccess),
         tap(({ token, user }) => {
-          console.log('Signup successful:', token, user);
-          this.router
-            .navigate(['/products'])
-            .catch((err) =>
-              console.error('Navigation to /products failed:', err)
-            );
+          this.router.navigate(['/products']);
         })
       ),
     { dispatch: false }
@@ -128,9 +118,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.resetPasswordSuccess),
-        tap(({ message }) => {
-          console.log('Reset Password successful:', message);
-        })
+        tap(({ message }) => {})
       ),
     { dispatch: false }
   );
@@ -139,9 +127,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.forgotPasswordSuccess),
-        tap(({ message }) => {
-          console.log('Forgot Password successful:', message);
-        })
+        tap(({ message }) => {})
       ),
     { dispatch: false }
   );
@@ -152,7 +138,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout),
         tap(() => {
-          console.log('Logging out...');
           this.authService.logout();
           this.router
             .navigate(['/login'])
